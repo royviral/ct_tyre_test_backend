@@ -1,0 +1,930 @@
+{
+	"info": {
+		"_postman_id": "406af27c-adf3-41cd-9dc6-d3189e928ab2",
+		"name": "Exchange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", json.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}admin/login",
+							"host": [
+								"{{url}}admin"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download scriptmaster from api",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}scriptmaster?type=fonse",
+							"host": [
+								"{{url}}scriptmaster"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "fonse",
+									"description": "mcx , fonse"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}users",
+							"host": [
+								"{{url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userFullName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineComission",
+									"value": "100",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineComission",
+									"value": "10",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "1",
+									"description": "User Status are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}users",
+							"host": [
+								"{{url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineCommission",
+									"value": "80",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineCommission",
+									"value": "20",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "20",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "2",
+									"description": "User roles are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}users/1",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}users/1",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Account",
+			"item": [
+				{
+					"name": "Get User Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}userAccount",
+							"host": [
+								"{{url}}userAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "eeee",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineCommission",
+									"value": "90",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineCommission",
+									"value": "10",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "2",
+									"description": "User roles are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}userAccount",
+							"host": [
+								"{{url}}userAccount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineCommission",
+									"value": "80",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineCommission",
+									"value": "20",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "2",
+									"description": "User roles are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}userAccount/1",
+							"host": [
+								"{{url}}userAccount"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}userAccount/1",
+							"host": [
+								"{{url}}userAccount"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Logs",
+			"item": [
+				{
+					"name": "Get Log",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}logs",
+							"host": [
+								"{{url}}logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineCommission",
+									"value": "90",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineCommission",
+									"value": "10",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "2",
+									"description": "User roles are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}logs",
+							"host": [
+								"{{url}}logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								},
+								{
+									"key": "userName",
+									"value": "viral",
+									"type": "text"
+								},
+								{
+									"key": "userPassword",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "userPhone",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "userCity",
+									"value": "vadodara",
+									"type": "text"
+								},
+								{
+									"key": "userCredit",
+									"value": "10000",
+									"type": "text"
+								},
+								{
+									"key": "userUplineCommission",
+									"value": "80",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userDownlineCommission",
+									"value": "20",
+									"description": "value in %",
+									"type": "text"
+								},
+								{
+									"key": "userExposerLimit",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "userRole",
+									"value": "1",
+									"description": "User roles are \n        1 - Super admin, \n        2 - admin, \n        3 - super master, \n        4 - master,\n        5 - user",
+									"type": "text"
+								},
+								{
+									"key": "userStatus",
+									"value": "2",
+									"description": "User roles are \n        1 - Enabled, \n        2 - Disabled, \n        3 - Pending, \n        4 - Deleted",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}userAccount/1",
+							"host": [
+								"{{url}}userAccount"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Log",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_csrf",
+									"value": "{{csrf}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}userAccount/1",
+							"host": [
+								"{{url}}userAccount"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Get CSRF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var json = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"csrf\", json._csrf);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}csrfToken",
+					"host": [
+						"{{url}}csrfToken"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
