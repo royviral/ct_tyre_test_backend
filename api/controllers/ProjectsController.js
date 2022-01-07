@@ -29,7 +29,7 @@ module.exports = {
         }
         else {
             var createdProject = await Projects.create({
-                projectName: project.projectName, fkClientId: project.fkClientId
+                projectName: project.projectName, fkClientId: project.fkClientId, projectStatus: project.projectStatus
             }).fetch();
             if (createdProject) {
                 console.log('createdProject--', createdProject);

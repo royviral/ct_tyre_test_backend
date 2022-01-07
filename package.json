@@ -13,13 +13,14 @@
     "dotenv": "^8.2.0",
     "grunt": "1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "log4js": "^6.3.0",
     "node-fetch": "^2.6.1",
     "sails": "^1.4.2",
     "sails-hook-grunt": "^4.0.0",
     "sails-hook-orm": "^3.0.2",
     "sails-hook-sockets": "^2.0.0",
     "sails-mysql": "^1.0.1",
-    "log4js": "^6.3.0"
+    "xlsx": "^0.17.4"
   },
   "devDependencies": {
     "eslint": "5.16.0"

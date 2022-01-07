@@ -21,6 +21,20 @@ module.exports = {
       unique: true,
       example: 'xnom'
     },
+    internalReportFileName: {
+      type: 'string',
+      description: 'Name of sub iteration internal report file',
+      maxLength: 120,
+      // unique: true,
+      example: 'xnom'
+    },
+    externalReportFileName: {
+      type: 'string',
+      description: 'Name of sub iteration external report file',
+      maxLength: 120,
+      // unique: true,
+      example: 'xnom'
+    },
     fkIterationId: {
       columnName: 'fkIterationId',
       model: 'Iteration',

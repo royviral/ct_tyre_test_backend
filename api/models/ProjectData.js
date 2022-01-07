@@ -20,16 +20,29 @@ module.exports = {
       description: 'Project Parameters details',
       example: '2'
     },
-    dataValue: {
+    internalDataValue: {
       type: 'string',
-      required: true,
+      allowNull: true,
       description: 'data of specified parameter',
       maxLength: 120,
       example: 'xnom'
     },
-    dataCellNumber: {
+    internalDataCellNumber: {
       type: 'string',
-      description: 'cell number of data in excel file',
+      description: 'cell number of data in internal excel file',
+      maxLength: 120,
+      example: 'xnom'
+    },
+    externalDataValue: {
+      type: 'string',
+      allowNull: true,
+      description: 'data of specified parameter',
+      maxLength: 120,
+      example: 'xnom'
+    },
+    externalDataCellNumber: {
+      type: 'string',
+      description: 'cell number of data in external excel file',
       maxLength: 120,
       example: 'xnom'
     },

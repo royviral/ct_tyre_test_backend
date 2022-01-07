@@ -18,7 +18,6 @@ module.exports = {
       required: true,
       description: 'Name of parameter',
       maxLength: 120,
-      unique: true,
       example: 'xnom'
     },
     fkProjectId: {

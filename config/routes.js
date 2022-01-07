@@ -37,8 +37,13 @@ module.exports.routes = {
   'GET /listParameters': 'ProjectParametersController.listParameters',
 
   'GET /listSubIterations': 'SubIterationController.listSubIterations',
+  'GET /getSubIteration': 'SubIterationController.getSubIteration',
+  'POST /createSubIteration': 'SubIterationController.createSubIteration',
 
   'GET /getProjectData': 'ProjectDataController.getProjectData',
+  'GET /getSubIterationData': 'ProjectDataController.getSubIterationData',
+  'POST /updateCellInfo': 'ProjectDataController.updateCellInfo',
+  'POST /uploadExcelFile': 'ProjectDataController.uploadExcelFile',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
