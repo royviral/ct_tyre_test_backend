@@ -40,9 +40,23 @@ module.exports = {
         }
         return res.ok()
     },
+    editReportValues: async function (req, res) {
+        var params = req.allParams();
+        // console.log('editReportValues--', params);
+        var updatedProjectData = params.updatedProjectData
+        for (let i = 0; i < updatedProjectData.length; i++) {
+            const element = updatedProjectData[i];
+            await ProjectData.updateOne({ id: element.dataId })
+                .set({
+                    internalDataValue: element.internalDataValue,
+                    externalDataValue: element.externalDataValue
+                });
+        }
+        return res.ok()
+    },
     uploadExcelFile: async function (req, res) {
         if (process.env.NODE_ENV === 'production') {
-            var dirname = '/var/www/html/csvfiles'
+            var dirname = '/var/www/html/ct_excel_files'
             var filePath = '/var/www/html/csvfiles/mcx_csv.csv'
         }
         else {

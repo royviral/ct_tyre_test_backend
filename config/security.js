@@ -30,7 +30,11 @@ module.exports.security = {
 
   cors: {
     allRoutes: true,
-    allowOrigins: ['http://localhost:8080', 'http://localhost:8081', 'http://localhost'],
+    allowOrigins: ['http://localhost:8080',
+      'http://localhost:8081',
+      'http://localhost',
+      'http://ctwheels.cubetechnology.in',
+      'https://ctwheels.cubetechnology.in'],
     allowCredentials: true,
     allowRequestMethods: 'GET,PUT,POST,PATCH,DELETE,OPTIONS,HEAD',
     allowRequestHeaders: 'content-type,x-csrf-token,Authorization'

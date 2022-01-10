@@ -43,6 +43,7 @@ module.exports.routes = {
   'GET /getProjectData': 'ProjectDataController.getProjectData',
   'GET /getSubIterationData': 'ProjectDataController.getSubIterationData',
   'POST /updateCellInfo': 'ProjectDataController.updateCellInfo',
+  'POST /editReportValues': 'ProjectDataController.editReportValues',
   'POST /uploadExcelFile': 'ProjectDataController.uploadExcelFile',
   /***************************************************************************
   *                                                                          *

@@ -49,11 +49,11 @@ module.exports = {
     default: {
       adapter: 'sails-mysql',
       //url: 'mysql://user:password@host:port/database',
-      user: 'ceat_user',
-      password: 'e!B2021!CEAT',
+      user: 'eib',
+      password: 'e!B2021!EIB',
       port: '3306',
       host: 'localhost',
-      database: 'ceat_database',
+      database: 'ct_tyre_test_db',
       timezone: 'Asia/Kolkata'
       // adapter: 'sails-mysql',
       // url: 'mysql://user:password@host:port/database',
@@ -162,8 +162,8 @@ module.exports = {
           'http://localhost:8080',
           'http://localhost:8081',
           'http://localhost',
-          'http://ct.cubetechnology.in',
-          'https://ct.cubetechnology.in',
+          'http://ctwheels.cubetechnology.in',
+          'https://ctwheels.cubetechnology.in',
           'http://143.110.249.92',
           'https://143.110.249.92',
           'http://143.110.249.92:1338',
@@ -275,8 +275,8 @@ module.exports = {
         'http://localhost:8080',
         'http://localhost:8081',
         'http://localhost',
-        'http://ct.cubetechnology.in',
-        'https://ct.cubetechnology.in',
+        'http://ctwheels.cubetechnology.in',
+        'https://ctwheels.cubetechnology.in',
         'http://143.110.249.92',
         'https://143.110.249.92',
         'http://143.110.249.92:1338',
@@ -371,7 +371,7 @@ module.exports = {
   * this, just try deploying without setting it and see if it works.)       *
   *                                                                         *
   ***************************************************************************/
-  port: 1338,
+  port: 1348,
 
 
 
