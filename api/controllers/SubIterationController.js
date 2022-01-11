@@ -40,13 +40,16 @@ module.exports = {
         var iterationResult = await SubIteration.find({ fkProjectId: iteration.fkProjectId, fkIterationId: iteration.fkIterationId, subIterationName: iteration.iterationName })
         console.log('iterationResult: ', iterationResult);
         if (iterationResult && iterationResult.length > 0) {
-            if (iterationResult[0].iterationName.toUpperCase() === iteration.iterationName.toUpperCase()) {
+            if (iterationResult[0].subIterationName.toUpperCase() === iteration.iterationName.toUpperCase()) {
                 return res.json('already exists')
             }
         }
         else {
             var createdSubIteration = await SubIteration.create({
-                subIterationName: iteration.iterationName, fkIterationId: iteration.fkIterationId, fkProjectId: iteration.fkProjectId
+                subIterationName: iteration.iterationName,
+                subIterationStatus: iteration.subIterationStatus,
+                fkIterationId: iteration.fkIterationId,
+                fkProjectId: iteration.fkProjectId
             }).fetch();
             if (createdSubIteration) {
                 for (let i = 0; i < parameters.length; i++) {
@@ -64,6 +67,20 @@ module.exports = {
             }
         }
 
+    },
+    updateSubIterationStatus: async function (req, res) {
+        var params = req.allParams();
+        console.log('updateSubIterationStatus--', params);
+        var update = await SubIteration.updateOne({ id: params.subIterationId })
+            .set({
+                subIterationStatus: params.subIterationStatus,
+            });
+        if (update) {
+            return res.ok()
+        }
+        else {
+            return res.status(403).send('Iteration status not updated')
+        }
     },
 };
 

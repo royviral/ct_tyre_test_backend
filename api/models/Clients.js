@@ -23,17 +23,17 @@ module.exports = {
       unique: true,
       example: 'xnom'
     },
-    clientEmail: {
-      type: 'string',
-      required: true,
-      unique: true,
-      description: 'client email',
-      example: 'abc@gmail.com'
-    },
+    // clientEmail: {
+    //   type: 'string',
+    //   required: true,
+    //   unique: true,
+    //   description: 'client email',
+    //   example: 'abc@gmail.com'
+    // },
     clientCategory: {
       type: 'string',
       required: true,
-      isIn: ['1', '2', '3'],
+      isIn: ['1', '2', '3', '4'],
       description: 'Client category defined number',
       extendedDescription:
         `Client categories are 
@@ -43,20 +43,20 @@ module.exports = {
         `,
       protect: true,
     },
-    clientAddress: {
-      type: 'string',
-      required: true,
-      description: 'address of client',
-      protect: true,
-      example: '2$28a8eabna301089103-13948134nad'
-    },
-    clientContact: {
-      type: 'number',
-      required: true,
-      description: 'client\'s contact number',
-      protect: true,
-      example: 'admin'
-    },
+    // clientAddress: {
+    //   type: 'string',
+    //   required: true,
+    //   description: 'address of client',
+    //   protect: true,
+    //   example: '2$28a8eabna301089103-13948134nad'
+    // },
+    // clientContact: {
+    //   type: 'number',
+    //   required: true,
+    //   description: 'client\'s contact number',
+    //   protect: true,
+    //   example: 'admin'
+    // },
   },
 };
 

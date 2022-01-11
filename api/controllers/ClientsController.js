@@ -18,24 +18,27 @@ module.exports = {
         var params = req.allParams();
         var client = params.client
         // console.log('params in registerClient', client);
-        var clientResult = await Clients.find().where({
-            or: [{ clientEmail: client.clientEmail }, { clientName: client.clientName }]
-        })
+        // var clientResult = await Clients.find().where({
+        //     or: [{ clientEmail: client.clientEmail }, { clientName: client.clientName }]
+        // })
+        var clientResult = await Clients.find({ clientName: client.clientName })
         // console.log('clientResult: ', clientResult);
         if (clientResult && clientResult.length > 0) {
-            if (clientResult[0].clientName.toUpperCase() === client.clientName.toUpperCase() && clientResult[0].clientEmail == client.clientEmail)
-                return res.json('both exist')
-            else if (clientResult[0].clientName.toUpperCase() === client.clientName.toUpperCase()) {
+            // if (clientResult[0].clientName.toUpperCase() === client.clientName.toUpperCase() && clientResult[0].clientEmail == client.clientEmail)
+            //     return res.json('both exist')
+            // else
+            if (clientResult[0].clientName.toUpperCase() === client.clientName.toUpperCase()) {
                 return res.json('already exists')
             }
-            else if (clientResult[0].clientEmail == client.clientEmail)
-                return res.json('email already exists')
+            // else if (clientResult[0].clientEmail == client.clientEmail)
+            //     return res.json('email already exists')
         }
         else {
             var createdClient = await Clients.create({
                 clientName: client.clientName, clientCategory
-                    : client.clientCategory, clientAddress: client.clientAddress,
-                clientEmail: client.clientEmail, clientContact: client.clientContact
+                    : client.clientCategory,
+                //  clientAddress: client.clientAddress,
+                // clientEmail: client.clientEmail, clientContact: client.clientContact
             }).fetch();
             if (createdClient) {
                 return res.json(createdClient);

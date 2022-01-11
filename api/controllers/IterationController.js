@@ -28,7 +28,10 @@ module.exports = {
             if (createdIteration) {
                 console.log('createdIteration--', createdIteration);
                 var createdSubIteration = await SubIteration.create({
-                    subIterationName: iteration.iterationName + '1', fkProjectId: iteration.fkProjectId, fkIterationId: createdIteration.id
+                    subIterationName: iteration.iterationName + '1',
+                    subIterationStatus: '1',
+                    fkProjectId: iteration.fkProjectId,
+                    fkIterationId: createdIteration.id
                 }).fetch();
                 if (createdSubIteration) {
                     // for (let i = 0; i < parameters.length; i++) {

@@ -21,6 +21,19 @@ module.exports = {
       unique: true,
       example: 'xnom'
     },
+    subIterationStatus: {
+      type: 'string',
+      defaultsTo: '1',
+      isIn: ['1', '2', '3'],
+      description: 'Sub Iteration Status defined number',
+      extendedDescription:
+        `Project Statuses are 
+        1 - Hold, 
+        2 - In-Process, 
+        3 - Completed,
+        `,
+      protect: true,
+    },
     internalReportFileName: {
       type: 'string',
       description: 'Name of sub iteration internal report file',

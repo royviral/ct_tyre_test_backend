@@ -15,7 +15,7 @@ module.exports = {
     if (_.isEmpty(params.email) || _.isEmpty(params.password)) {
       return res.status(401).send('Unauthorized')
     } else {
-      var user = await User.findOne({ userName: params.email })
+      var user = await User.findOne({ userEmail: params.email })
       if (user) {
         const match = await bcrypt.compare(params.password, user.userPassword);
         if (match) {
@@ -39,75 +39,32 @@ module.exports = {
       }
     }
   },
-  // login: async function (req, res) {
-  //   var params = req.allParams();
-  //   if (_.isEmpty(params.email) || _.isEmpty(params.password)) {
-  //     return res.status(404).send('email and password required');
-  //   } else {
-  //     var user = await User.findOne({ userName: params.email }).populate('shoppeDetails');
-  //     // return res.json(user)
-  //     //console.log('key', params.apiKey);
-  //     if (user) {
-  //       const match = await bcrypt.compare(params.password, user.userPassword);
-  //       var apiMatch = ''
-  //       if (user.userRole == 'User') {
-  //         apiMatch = params.apiKey == user.shoppeDetails.shoppeApiKey ? true : false
-  //       }
-  //       else
-  //         apiMatch = true
-  //       if (params.email === user.userName && match && apiMatch) {
-  //         var token = jwt.sign({
-  //           expiredAt: Date.now() + expiredAfter,
-  //           email: user.userName,
-  //           id: user.id
-  //         }, `${process.env.ACCESS_TOKEN_SECRET}`
-  //         );
-  //         user.token = token;
-  //         // console.log('shoppe id:', user.shoppeDetails.id, user.shoppeDetails.shoppeApiCall);
-  //         return res.json(user);
-  //       } else {
-  //         return res.status(404).send('Incorrect username or password.');
-  //       }
-  //     } else {
-  //       return res.status(404).send('Incorrect username or password.');
-  //     }
-  //   }
-  // },
-
   registerUser: async function (req, res) {
     var params = req.allParams();
     var user = params.user
     // console.log('params in registerUser', user);
-    if (_.isEmpty(user.name) || _.isEmpty(user.password)) {
+    if (_.isEmpty(user.email) || _.isEmpty(user.password)) {
       return res.status(404).send('email and password required');
     } else {
-      // var foundName = await User.findOne({ userName: user.name });
-      // var foundEmail = await User.findOne({ userEmail: user.email });
-      // if (foundName && foundEmail)
-      //   return res.json('both exist')
-      // else if (foundName) {
-      //   return res.json('already exists')
-      // }
-      // else if (foundEmail)
-      //   return res.json('email already exists')
-
-      // else {
-      var userResult = await User.find().where({
-        or: [{ userEmail: user.email }, { userName: user.name }]
-      })
+      // var userResult = await User.find().where({
+      //   or: [{ userEmail: user.email }, { userName: user.name }]
+      // })
+      var userResult = await User.find({ userEmail: user.email })
       // console.log('userResult: ', userResult);
       if (userResult && userResult.length > 0) {
-        if (userResult[0].userName.toUpperCase() === user.name.toUpperCase() && userResult[0].userEmail == user.email)
-          return res.json('both exist')
-        else if (userResult[0].userName.toUpperCase() === user.name.toUpperCase()) {
-          return res.json('already exists')
-        }
-        else if (userResult[0].userEmail == user.email)
+        // if (userResult[0].userEmail == user.email)
+        //   return res.json('both exist')
+        // else if (userResult[0].userName.toUpperCase() === user.name.toUpperCase()) {
+        //   return res.json('already exists')
+        // }
+        // else 
+        if (userResult[0].userEmail == user.email)
           return res.json('email already exists')
       }
       else {
         var createdUser = await User.create({
-          userName: user.name, userPassword
+          // userName: user.name, 
+          userPassword
             : user.password, userRole: user.userRole,
           userEmail: user.email,
         }).fetch();

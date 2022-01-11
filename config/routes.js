@@ -39,6 +39,7 @@ module.exports.routes = {
   'GET /listSubIterations': 'SubIterationController.listSubIterations',
   'GET /getSubIteration': 'SubIterationController.getSubIteration',
   'POST /createSubIteration': 'SubIterationController.createSubIteration',
+  'POST /updateSubIterationStatus': 'SubIterationController.updateSubIterationStatus',
 
   'GET /getProjectData': 'ProjectDataController.getProjectData',
   'GET /getSubIterationData': 'ProjectDataController.getSubIterationData',

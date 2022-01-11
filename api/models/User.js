@@ -15,14 +15,14 @@ module.exports = {
       columnName: 'userId',
       autoIncrement: true
     },
-    userName: {
-      type: 'string',
-      required: true,
-      description: 'Use for login.',
-      maxLength: 120,
-      unique: true,
-      example: 'xnom'
-    },
+    // userName: {
+    //   type: 'string',
+    //   required: true,
+    //   description: 'Use for login.',
+    //   maxLength: 120,
+    //   unique: true,
+    //   example: 'xnom'
+    // },
     userEmail: {
       type: 'string',
       required: true,

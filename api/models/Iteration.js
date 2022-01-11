@@ -22,18 +22,18 @@ module.exports = {
       unique: true,
       example: 'xnom'
     },
-    iterationType: {
-      type: 'string',
-      defaultsTo: '1',
-      isIn: ['1', '2'],
-      description: 'Iteration Type defined number',
-      extendedDescription:
-        `Iteration Types are 
-        1 - Internal, 
-        2 - External,
-        `,
-      protect: true,
-    },
+    // iterationType: {
+    //   type: 'string',
+    //   defaultsTo: '1',
+    //   isIn: ['1', '2'],
+    //   description: 'Iteration Type defined number',
+    //   extendedDescription:
+    //     `Iteration Types are 
+    //     1 - Internal, 
+    //     2 - External,
+    //     `,
+    //   protect: true,
+    // },
     fkProjectId: {
       columnName: 'fkProjectId',
       model: 'Projects',
