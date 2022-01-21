@@ -7,6 +7,15 @@
 
 
 module.exports = {
+    getClientDetails: async function (req, res) {
+        var params = req.allParams();
+        console.log('getClientDetails--', params);
+        var clientDetails = await Clients.findOne({ id: params.clientId })
+        // console.log('clientDetails--', clientDetails);
+        if (clientDetails) {
+            return res.json(clientDetails);
+        }
+    },
     listClients: async function (req, res) {
         // var params = req.allParams();
         var clients = await Clients.find()
@@ -35,8 +44,9 @@ module.exports = {
         }
         else {
             var createdClient = await Clients.create({
-                clientName: client.clientName, clientCategory
-                    : client.clientCategory,
+                clientName: client.clientName,
+                clientCategory: client.clientCategory,
+                clientBase: client.clientBase
                 //  clientAddress: client.clientAddress,
                 // clientEmail: client.clientEmail, clientContact: client.clientContact
             }).fetch();
@@ -45,6 +55,32 @@ module.exports = {
             }
             else {
                 return res.status(403).send('Client not created')
+            }
+        }
+
+    },
+    editClient: async function (req, res) {
+        var params = req.allParams();
+        // var client = params.client
+        var clientResult = await Clients.find({ clientName: params.clientName })
+        // console.log('clientResult: ', clientResult);
+        if (clientResult && clientResult.length > 0) {
+            if (clientResult[0].clientName.toUpperCase() === params.clientName.toUpperCase()) {
+                return res.json('already exists')
+            }
+        }
+        else {
+            var updatedClient = await Clients.updateOne({ id: params.clientId })
+                .set({
+                    clientName: params.clientName,
+                    clientCategory: params.clientCategory,
+                    clientBase: params.clientBase
+                });
+            if (updatedClient) {
+                return res.json(updatedClient);
+            }
+            else {
+                return res.status(403).send('Client not updated')
             }
         }
 

@@ -151,6 +151,43 @@ module.exports = {
             // return res.ok();
         })
     },
+    downloadExcelFile: async function (req, res) {
+        console.log('in downloadExcelFile');
+        var params = req.allParams();
+        console.log('downloadExcelFile--', params);
+        if (process.env.NODE_ENV === 'production') {
+            var dirname = '/var/www/html/ct_excel_files/'
+            var filePath = '/var/www/html/csvfiles/mcx_csv.csv'
+        }
+        else {
+            var dirname = project_root + '/assets/uploads/'
+            var filePath = project_root + '/assets/uploads/mcx_csv.csv'
+        }
+
+        // XLSX = require('xlsx');
+        const excel = require("exceljs");
+        var workbook = new excel.Workbook(dirname + params.fileName);
+        // var workbook = XLSX.readFile(dirname + params.fileName);
+        console.log('workbook.SheetNames--', workbook.SheetNames);
+        // var first_sheet_name = workbook.SheetNames[0];
+        // var worksheet = workbook.Sheets[first_sheet_name];
+        res.attachment(dirname + params.fileName)
+        res.setHeader(
+            "Content-Type",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        );
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=" + "report.xlsx"
+        );
+
+        workbook.xlsx.write(res)
+            .then(function (data) {
+                res.end();
+                console.log('File write done........');
+            });
+
+    },
 
 };
 

@@ -30,16 +30,28 @@ module.exports = {
     //   description: 'client email',
     //   example: 'abc@gmail.com'
     // },
+    clientBase: {
+      type: 'string',
+      required: true,
+      isIn: ['1', '2'],
+      description: 'Client base defined number',
+      extendedDescription:
+        `Client categories are 
+        1 - Domestic, 
+        2 - International,
+        `,
+      protect: true,
+    },
     clientCategory: {
       type: 'string',
       required: true,
-      isIn: ['1', '2', '3', '4'],
+      isIn: ['1', '2', '3'],
       description: 'Client category defined number',
       extendedDescription:
         `Client categories are 
         1 - OEM, 
-        2 - Domestic, 
-        3 - International,
+        2 - Internal, 
+        3 - Other,
         `,
       protect: true,
     },

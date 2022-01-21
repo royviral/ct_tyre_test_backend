@@ -71,10 +71,20 @@ module.exports = {
     updateSubIterationStatus: async function (req, res) {
         var params = req.allParams();
         console.log('updateSubIterationStatus--', params);
-        var update = await SubIteration.updateOne({ id: params.subIterationId })
-            .set({
-                subIterationStatus: params.subIterationStatus,
-            });
+        if (params.subIterationStatus == '3') {
+            var todayTime=new Date().getTime()
+            var update = await SubIteration.updateOne({ id: params.subIterationId })
+                .set({
+                    subIterationStatus: params.subIterationStatus,
+                    subIterationCompletionTime:todayTime
+                });
+        }
+        else {
+            var update = await SubIteration.updateOne({ id: params.subIterationId })
+                .set({
+                    subIterationStatus: params.subIterationStatus,
+                });
+        }
         if (update) {
             return res.ok()
         }

@@ -9,9 +9,10 @@ module.exports = {
     createIteration: async function (req, res) {
         var params = req.allParams();
         var iteration = params.iteration
-        // var currentDate = new Date().getTime()
+        var currentDate = new Date().getTime()
         // var parameters = iteration.parameters
         // var insertQuery = `INSERT INTO ceat_project_data(createdAt, updatedAt,internalDataCellNumber,externalDataCellNumber, fkParameterId, fkSubIterationId, fkIterationId, fkProjectId) VALUES `
+        var insertQuery = `INSERT INTO ceat_project_data(createdAt, updatedAt, fkParameterId, fkSubIterationId, fkIterationId, fkProjectId) VALUES `
         console.log('params in createIteration', iteration);
 
         var iterationResult = await Iteration.find({ fkProjectId: iteration.fkProjectId, iterationName: iteration.iterationName })
@@ -34,6 +35,19 @@ module.exports = {
                     fkIterationId: createdIteration.id
                 }).fetch();
                 if (createdSubIteration) {
+                    var parameters = await ProjectParameters.find({ fkProjectId: iteration.fkProjectId, parameterStatus: '1' })
+                    // console.log('parameters--', parameters);
+                    if (parameters) {
+                        for (let i = 0; i < parameters.length; i++) {
+                            const parameter = parameters[i];
+                            insertQuery += `(${currentDate},${currentDate},${parameter.id},${createdSubIteration.id},${createdIteration.id},${iteration.fkProjectId}),`
+                        }
+                        //  var finalQuery = query + insertString
+                        insertQuery = insertQuery.slice(0, -1)
+                        console.log('insertQuery--', insertQuery);
+                        var result = await ProjectData.getDatastore().sendNativeQuery(insertQuery)
+                        return res.json(createdIteration);
+                    }
                     // for (let i = 0; i < parameters.length; i++) {
                     //     const parameter = parameters[i];
                     //     insertQuery += `(${currentDate},${currentDate},'${parameter.internalCellNumber}','${parameter.externalCellNumber}',${parameter.parameterId},${createdSubIteration.id},${createdIteration.id},${iteration.fkProjectId}),`
@@ -42,7 +56,7 @@ module.exports = {
                     // insertQuery = insertQuery.slice(0, -1)
                     // console.log('insertQuery--', insertQuery);
                     // var result = await ProjectData.getDatastore().sendNativeQuery(insertQuery)
-                    return res.json(createdIteration);
+                    // return res.json(createdIteration);
                 }
             }
             else {

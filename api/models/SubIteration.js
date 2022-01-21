@@ -34,6 +34,11 @@ module.exports = {
         `,
       protect: true,
     },
+    subIterationCompletionTime: {
+      type: 'number',
+      description: 'sub iteration completion time',
+      defaultsTo: 0
+    },
     internalReportFileName: {
       type: 'string',
       description: 'Name of sub iteration internal report file',

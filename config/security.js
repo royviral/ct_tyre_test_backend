@@ -34,7 +34,8 @@ module.exports.security = {
       'http://localhost:8081',
       'http://localhost',
       'http://ctwheels.cubetechnology.in',
-      'https://ctwheels.cubetechnology.in'],
+      'https://ctwheels.cubetechnology.in',
+      'http://tps.eib-solutions.com'],
     allowCredentials: true,
     allowRequestMethods: 'GET,PUT,POST,PATCH,DELETE,OPTIONS,HEAD',
     allowRequestHeaders: 'content-type,x-csrf-token,Authorization'

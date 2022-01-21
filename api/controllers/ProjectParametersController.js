@@ -9,7 +9,7 @@ module.exports = {
     listParameters: async function (req, res) {
         var params = req.allParams();
         console.log('listParameters--', params);
-        var parameters = await ProjectParameters.find({ fkProjectId: params.fkProjectId })
+        var parameters = await ProjectParameters.find({ fkProjectId: params.fkProjectId, parameterStatus: '1' })
         // console.log('parameters--', parameters);
         if (parameters) {
             return res.json(parameters);

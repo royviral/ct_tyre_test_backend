@@ -29,6 +29,7 @@ module.exports = {
     },
     internalDataCellNumber: {
       type: 'string',
+      allowNull: true,
       description: 'cell number of data in internal excel file',
       maxLength: 120,
       example: 'xnom'
@@ -42,6 +43,7 @@ module.exports = {
     },
     externalDataCellNumber: {
       type: 'string',
+      allowNull: true,
       description: 'cell number of data in external excel file',
       maxLength: 120,
       example: 'xnom'

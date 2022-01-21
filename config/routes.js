@@ -26,11 +26,15 @@ module.exports.routes = {
   'GET /listUsers': 'UserController.listUsers',
   'POST /registerUser': 'UserController.registerUser',
 
+  'GET /getClientDetails': 'ClientsController.getClientDetails',
   'GET /listClients': 'ClientsController.listClients',
   'POST /registerClient': 'ClientsController.registerClient',
+  'POST /editClient': 'ClientsController.editClient',
 
+  'GET /getProjectDetails': 'ProjectsController.getProjectDetails',
   'GET /listProjects': 'ProjectsController.listProjects',
   'POST /registerProject': 'ProjectsController.registerProject',
+  'POST /editProject': 'ProjectsController.editProject',
 
   'POST /createIteration': 'IterationController.createIteration',
 
@@ -46,6 +50,7 @@ module.exports.routes = {
   'POST /updateCellInfo': 'ProjectDataController.updateCellInfo',
   'POST /editReportValues': 'ProjectDataController.editReportValues',
   'POST /uploadExcelFile': 'ProjectDataController.uploadExcelFile',
+  'GET /downloadExcelFile': 'ProjectDataController.downloadExcelFile',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

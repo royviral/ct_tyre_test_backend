@@ -6,11 +6,27 @@
  */
 
 module.exports = {
+    getProjectDetails: async function (req, res) {
+        var params = req.allParams();
+        console.log('getProjectDetails--', params);
+        var projectDetails = await Projects.findOne({ id: params.projectId }).populate('fkClientId')
+        // console.log('projectDetails--', projectDetails);
+        if (projectDetails) {
+            return res.json(projectDetails);
+        }
+    },
     listProjects: async function (req, res) {
         // var params = req.allParams();
+        var query = `SELECT * FROM ceat_project_iteration where createdAt IN (SELECT MAX(createdAt) FROM ceat_project_iteration GROUP BY fkProjectId);`
+        // var query = `SELECT * FROM ceat_project_sub_iteration where createdAt IN (SELECT MAX(createdAt) FROM ceat_project_sub_iteration GROUP BY fkProjectId);`
         var projects = await Projects.find().populate('fkClientId');
         if (projects) {
-            return res.json(projects);
+            var result = await SubIteration.getDatastore().sendNativeQuery(query)
+            var response = {
+                projectDetails: projects,
+                subIterationDetails: result.rows
+            }
+            return res.json(response);
         }
     },
     registerProject: async function (req, res) {
@@ -18,7 +34,7 @@ module.exports = {
         var project = params.project
         var parameters = project.parameters
         var currentDate = new Date().getTime()
-        var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName, fkProjectId) VALUES `
+        var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName,parameterStatus, fkProjectId) VALUES `
         console.log('params in registerProject', project);
         var projectResult = await Projects.find({ projectName: project.projectName })
         console.log('projectResult: ', projectResult);
@@ -36,7 +52,7 @@ module.exports = {
                 for (let i = 0; i < parameters.length; i++) {
                     const parameter = parameters[i];
                     if (parameter.selected) {
-                        insertQuery += `(${currentDate},${currentDate},'${parameter.field}',${createdProject.id}),`
+                        insertQuery += `(${currentDate},${currentDate},'${parameter.field}','1',${createdProject.id}),`
                     }
                 }
                 //  var finalQuery = query + insertString
@@ -49,6 +65,53 @@ module.exports = {
                 return res.status(403).send('Project not created')
             }
         }
+
+    },
+    editProject: async function (req, res) {
+        var params = req.allParams();
+        var parameters = params.parameters
+        var parameterList = params.parameterList
+        var currentDate = new Date().getTime()
+        var insertRows = ''
+        var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName,parameterStatus, fkProjectId) VALUES `
+
+        // console.log('params in editProject', params);
+        await Projects.updateOne({ id: params.projectId })
+            .set({
+                projectStatus: params.projectStatus
+            });
+        // for (let i = 0; i < parameters.length; i++) {
+        //     const element = parameters[i];
+        //     var found = parameterList.find((currentValue) => {
+        //         if (currentValue.parameterName == element.field) {
+        //             return true;
+        //         }
+        //     });
+        //     // console.log('found--', found);
+        //     if (found && !element.selected) {
+        //         //parameter deselected,so disable it
+        //         console.log('removed field--', element.field);
+        //         await Projects.ProjectParameters({ fkProjectId: params.projectId, parameterName: element.field })
+        //             .set({
+        //                 parameterStatus: '2' //disabled
+        //             });
+        //     }
+        //     if (found == null && element.selected) {
+        //         //new parameter selected,so add it
+        //         console.log('added field--', element.field);
+        //         insertRows += `(${currentDate},${currentDate},'${element.field}','1',${params.projectId}),`
+        //     }
+        // }
+        // if (insertRows != '') {
+        //     insertRows = insertRows.slice(0, -1)
+        //     var finalQuery = insertQuery + insertRows
+        //     console.log('finalQuery--', finalQuery);
+        //     var result = await ProjectParameters.getDatastore().sendNativeQuery(finalQuery)
+        // }
+        return res.ok()
+        // return res.status(403).send('Project not created')
+
+
 
     },
 

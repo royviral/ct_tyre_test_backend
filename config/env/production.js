@@ -164,6 +164,7 @@ module.exports = {
           'http://localhost',
           'http://ctwheels.cubetechnology.in',
           'https://ctwheels.cubetechnology.in',
+          'http://tps.eib-solutions.com',
           'http://143.110.249.92',
           'https://143.110.249.92',
           'http://143.110.249.92:1338',
