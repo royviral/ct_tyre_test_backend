@@ -18,7 +18,7 @@ module.exports = {
       required: true,
       description: 'Name of sub iteration',
       maxLength: 120,
-      unique: true,
+      // unique: true,
       example: 'xnom'
     },
     subIterationStatus: {

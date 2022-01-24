@@ -19,7 +19,7 @@ module.exports = {
       required: true,
       description: 'Name of iteration',
       maxLength: 120,
-      unique: true,
+      // unique: true,
       example: 'xnom'
     },
     // iterationType: {
