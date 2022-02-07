@@ -51,6 +51,8 @@ module.exports.routes = {
   'POST /editReportValues': 'ProjectDataController.editReportValues',
   'POST /uploadExcelFile': 'ProjectDataController.uploadExcelFile',
   'GET /downloadExcelFile': 'ProjectDataController.downloadExcelFile',
+
+  'GET /getReports': 'ReportsController.getReports',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

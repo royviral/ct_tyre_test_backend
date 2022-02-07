@@ -1,53 +1,40 @@
 /**
- * ProjectData.js
+ * Reports.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
 module.exports = {
-  tableName: 'ceat_project_data',
+  tableName: 'ceat_project_reports',
   attributes: {
     id: {
       type: 'number',
       columnName: 'dataId',
       autoIncrement: true
     },
-    fkParameterId: {
-      columnName: 'fkParameterId',
-      model: 'ProjectParameters',
-      allowNull: false,
-      description: 'Project Parameters details',
-      example: '2'
-    },
-    internalDataValue: {
+    reportName: {
       type: 'string',
       allowNull: true,
       description: 'data of specified parameter',
       maxLength: 120,
       example: 'xnom'
     },
-    // internalDataCellNumber: {
-    //   type: 'string',
-    //   allowNull: true,
-    //   description: 'cell number of data in internal excel file',
-    //   maxLength: 120,
-    //   example: 'xnom'
-    // },
-    externalDataValue: {
+    reportType: {
       type: 'string',
-      allowNull: true,
-      description: 'data of specified parameter',
-      maxLength: 120,
-      example: 'xnom'
+      defaultsTo: '1',
+      isIn: ['1', '2', '3', '4', '5'],
+      description: 'Report Type defined number',
+      extendedDescription:
+        `Report Types are 
+        1 - Dimension Report, 
+        2 - Force and moment Report,
+        3 - Contact pressure Report, 
+        4 - rolling resistance Report, 
+        5 - radial stiffness Report, 
+        `,
+      protect: true,
     },
-    // externalDataCellNumber: {
-    //   type: 'string',
-    //   allowNull: true,
-    //   description: 'cell number of data in external excel file',
-    //   maxLength: 120,
-    //   example: 'xnom'
-    // },
     fkSubIterationId: {
       columnName: 'fkSubIterationId',
       model: 'SubIteration',
@@ -70,6 +57,5 @@ module.exports = {
       example: '2'
     },
   },
-
 };
 
