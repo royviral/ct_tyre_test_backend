@@ -29,12 +29,46 @@ module.exports = {
             return res.json(response);
         }
     },
+    filterProjects: async function (req, res) {
+        var params = req.allParams();
+        console.log('filterProjects--', params);
+        var query = `SELECT * FROM ceat_project_iteration where createdAt IN (SELECT MAX(createdAt) FROM ceat_project_iteration GROUP BY fkProjectId);`
+        if (params.endDate != '' && params.startDate != '') {
+            console.log('in if 1');
+            var projects = await Projects.find({
+                and: [
+                    { createdAt: { '>=': params.startDate } },
+                    { createdAt: { '<=': params.endDate } }
+                ]
+            }).populate('fkClientId');
+        }
+        else if (params.startDate != '') {
+            console.log('in if 2');
+            var projects = await Projects.find({ createdAt: { '>=': params.startDate } }).populate('fkClientId');
+        }
+        else if (params.endDate != '') {
+            console.log('in if 3');
+            var projects = await Projects.find({ createdAt: { '<=': params.endDate } }).populate('fkClientId');
+        }
+        else {
+            console.log('in else');
+            var projects = await Projects.find().populate('fkClientId');
+        }
+        if (projects) {
+            var result = await SubIteration.getDatastore().sendNativeQuery(query)
+            var response = {
+                projectDetails: projects,
+                subIterationDetails: result.rows
+            }
+            return res.json(response);
+        }
+    },
     registerProject: async function (req, res) {
         var params = req.allParams();
         var project = params.project
         var parameters = project.parameters
         var currentDate = new Date().getTime()
-        var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName,parameterStatus, fkProjectId) VALUES `
+        var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName,parameterCellNumber,parameterReportType,parameterStatus, fkProjectId) VALUES `
         console.log('params in registerProject', project);
         var projectResult = await Projects.find({ projectName: project.projectName })
         console.log('projectResult: ', projectResult);
@@ -52,7 +86,7 @@ module.exports = {
                 for (let i = 0; i < parameters.length; i++) {
                     const parameter = parameters[i];
                     if (parameter.selected) {
-                        insertQuery += `(${currentDate},${currentDate},'${parameter.field}','1',${createdProject.id}),`
+                        insertQuery += `(${currentDate},${currentDate},'${parameter.field}','${parameter.cellNumber}','${parameter.reportType}','1',${createdProject.id}),`
                     }
                 }
                 //  var finalQuery = query + insertString

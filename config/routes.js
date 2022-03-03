@@ -33,6 +33,7 @@ module.exports.routes = {
 
   'GET /getProjectDetails': 'ProjectsController.getProjectDetails',
   'GET /listProjects': 'ProjectsController.listProjects',
+  'GET /filterProjects': 'ProjectsController.filterProjects',
   'POST /registerProject': 'ProjectsController.registerProject',
   'POST /editProject': 'ProjectsController.editProject',
 
@@ -47,12 +48,17 @@ module.exports.routes = {
 
   'GET /getProjectData': 'ProjectDataController.getProjectData',
   'GET /getSubIterationData': 'ProjectDataController.getSubIterationData',
+  'GET /getCompiledReport': 'ProjectDataController.getCompiledReport',
   'POST /updateCellInfo': 'ProjectDataController.updateCellInfo',
   'POST /editReportValues': 'ProjectDataController.editReportValues',
   'POST /uploadExcelFile': 'ProjectDataController.uploadExcelFile',
+  'POST /uploadPdfFile': 'ProjectDataController.uploadPdfFile',
   'GET /downloadExcelFile': 'ProjectDataController.downloadExcelFile',
 
   'GET /getReports': 'ReportsController.getReports',
+
+  'POST /uploadTestPlan': 'IterationTrialPlanDataController.uploadTestPlan',
+  'GET /getTrialPlanData': 'IterationTrialPlanDataController.getTrialPlanData',
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

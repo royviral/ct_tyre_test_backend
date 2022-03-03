@@ -22,6 +22,13 @@ module.exports = {
       // unique: true,
       example: 'xnom'
     },
+    testPlanReportName: {
+      type: 'string',
+      allowNull: true,
+      description: 'test plan report name',
+      maxLength: 120,
+      example: 'xnom'
+    },
     // iterationType: {
     //   type: 'string',
     //   defaultsTo: '1',

@@ -13,6 +13,7 @@ module.exports = {
         // var parameters = iteration.parameters
         // var insertQuery = `INSERT INTO ceat_project_data(createdAt, updatedAt,internalDataCellNumber,externalDataCellNumber, fkParameterId, fkSubIterationId, fkIterationId, fkProjectId) VALUES `
         var insertQuery = `INSERT INTO ceat_project_data(createdAt, updatedAt, fkParameterId, fkSubIterationId, fkIterationId, fkProjectId) VALUES `
+        var trialPlanInsertQuery = `INSERT INTO ceat_iteration_test_plan_data(createdAt, updatedAt, fkParameterId, fkIterationId, fkProjectId) VALUES `
         console.log('params in createIteration', iteration);
 
         var iterationResult = await Iteration.find({ fkProjectId: iteration.fkProjectId, iterationName: iteration.iterationName })
@@ -41,11 +42,16 @@ module.exports = {
                         for (let i = 0; i < parameters.length; i++) {
                             const parameter = parameters[i];
                             insertQuery += `(${currentDate},${currentDate},${parameter.id},${createdSubIteration.id},${createdIteration.id},${iteration.fkProjectId}),`
+                            if (parameter.parameterReportType == '8') {
+                                trialPlanInsertQuery += `(${currentDate},${currentDate},${parameter.id},${createdIteration.id},${iteration.fkProjectId}),`
+                            }
                         }
-                        //  var finalQuery = query + insertString
                         insertQuery = insertQuery.slice(0, -1)
-                        console.log('insertQuery--', insertQuery);
+                        // console.log('insertQuery--', insertQuery);
                         var result = await ProjectData.getDatastore().sendNativeQuery(insertQuery)
+                        trialPlanInsertQuery = trialPlanInsertQuery.slice(0, -1)
+                        console.log('trialPlanInsertQuery--', trialPlanInsertQuery);
+                        result = await IterarionTestPlanData.getDatastore().sendNativeQuery(trialPlanInsertQuery)
                         return res.json(createdIteration);
                     }
                     // for (let i = 0; i < parameters.length; i++) {

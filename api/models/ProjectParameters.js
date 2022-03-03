@@ -20,7 +20,31 @@ module.exports = {
       maxLength: 120,
       example: 'xnom'
     },
-     parameterStatus: {
+    parameterCellNumber: {
+      type: 'string',
+      allowNull: true,
+      description: 'Cell Number of parameter',
+      maxLength: 120,
+      example: 'C7'
+    },
+    parameterReportType: {
+      type: 'string',
+      allowNull: true,
+      defaultsTo: '1',
+      isIn: ['1', '2', '3', '4', '5', '6', '7', '8'],
+      description: 'Report Type defined number',
+      extendedDescription:
+        `Report Types are 
+        1 - Dimension Report, 
+        2 - Force and moment Report,
+        3 - Contact pressure Report, 
+        4 - Rolling resistance Report, 
+        5 - Radial stiffness Report, 
+        6 - Outdoor Report
+        `,
+      protect: true,
+    },
+    parameterStatus: {
       type: 'string',
       defaultsTo: '1',
       isIn: ['1', '2', '3'],
