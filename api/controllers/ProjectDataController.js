@@ -375,7 +375,10 @@ module.exports = {
                         const element = projectParameters[i];
 
                         if (element.fkParameterId.parameterName === "Test Pressure(kPa)") {
-                            worksheet = workbook.Sheets['FAM_6LOADS'];
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
                             cell_value = worksheet['C16'].v
                             console.log('Test Pressure cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -386,7 +389,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "Test Load") {
-                            worksheet = workbook.Sheets['FAM_6LOADS'];
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
                             cell_value = worksheet['C21'].v + ' ' + worksheet['E21'].v + ' ' + worksheet['G21'].v + ' ' + worksheet['I21'].v + ' ' + worksheet['K21'].v + ' ' + worksheet['M21'].v;
                             console.log('Test Load cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -397,7 +403,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "Cornering Stiffness") {
-                            worksheet = workbook.Sheets['FAM_6LOADS'];
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
                             cell_value = worksheet['C36'].w + ' ' + worksheet['E36'].w + ' ' + worksheet['G36'].w + ' ' + worksheet['I36'].w + ' ' + worksheet['K36'].w + ' ' + worksheet['M36'].w;
                             console.log('Cornering Stiffness cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -408,7 +417,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "Aligning Stiffness") {
-                            worksheet = workbook.Sheets['FAM_6LOADS'];
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
                             cell_value = worksheet['C38'].w + ' ' + worksheet['E38'].w + ' ' + worksheet['G38'].w + ' ' + worksheet['I38'].w + ' ' + worksheet['K38'].w + ' ' + worksheet['M38'].w;
                             console.log('Aligning Stiffness cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -418,7 +430,10 @@ module.exports = {
                             // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
                         }
                         else if (element.fkParameterId.parameterName === "F function") {
-                            worksheet = workbook.Sheets['FAM Data'];
+                            var sheetName = workbook.SheetNames[3]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM Data'];
                             cell_value = worksheet['S8'].w + ' ' + worksheet['S20'].w
                             console.log('F function cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -429,7 +444,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "AT function") {
-                            worksheet = workbook.Sheets['FAM Data'];
+                            var sheetName = workbook.SheetNames[3]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM Data'];
                             cell_value = worksheet['T8'].w + ' ' + worksheet['T20'].w
                             console.log('aT function cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -440,7 +458,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "H function") {
-                            worksheet = workbook.Sheets['FAM Data'];
+                            var sheetName = workbook.SheetNames[3]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM Data'];
                             cell_value = worksheet['U8'].w + ' ' + worksheet['U20'].w
                             console.log('H functioncell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
@@ -451,7 +472,10 @@ module.exports = {
 
                         }
                         else if (element.fkParameterId.parameterName === "G function") {
-                            worksheet = workbook.Sheets['FAM Data'];
+                            var sheetName = workbook.SheetNames[3]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM Data'];
                             cell_value = worksheet['V8'].w + ' ' + worksheet['V20'].w
                             console.log('g function cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })

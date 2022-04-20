@@ -85,13 +85,15 @@ module.exports = {
             var workbook = XLSX.readFile(uploadedFile[0].fd);
             console.log('workbook.SheetNames--', workbook.SheetNames);
             var trialPlanParams = await IterationTrialPlanData.find().populate('fkParameterId')
-            console.log('trialPlanParams--', trialPlanParams[0]);
+            // console.log('trialPlanParams--', trialPlanParams[0]);
             try {
-                var worksheet = workbook.Sheets[1];
-                // console.log('worksheet--', worksheet);
+                var sheetName = workbook.SheetNames[0]
+                console.log('sheetName--', sheetName);
+                var worksheet = workbook.Sheets[sheetName];
+                console.log('worksheet--', worksheet);
                 var parameterValues = []
                 for (let i = 0; i < subIterations.length; i++) {
-                    var subIterationNameCell = 'E13'
+                    var subIterationNameCell = 'D9'
                     var sbCell = String.fromCharCode(subIterationNameCell.charCodeAt(0) + i)
                     var newSbCellArray = subIterationNameCell.split("");
                     newSbCellArray[0] = sbCell;

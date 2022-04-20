@@ -51,7 +51,7 @@ module.exports = {
                         var result = await ProjectData.getDatastore().sendNativeQuery(insertQuery)
                         trialPlanInsertQuery = trialPlanInsertQuery.slice(0, -1)
                         console.log('trialPlanInsertQuery--', trialPlanInsertQuery);
-                        result = await IterarionTestPlanData.getDatastore().sendNativeQuery(trialPlanInsertQuery)
+                        result = await IterationTrialPlanData.getDatastore().sendNativeQuery(trialPlanInsertQuery)
                         return res.json(createdIteration);
                     }
                     // for (let i = 0; i < parameters.length; i++) {
