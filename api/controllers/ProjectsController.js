@@ -79,7 +79,12 @@ module.exports = {
         }
         else {
             var createdProject = await Projects.create({
-                projectName: project.projectName, fkClientId: project.fkClientId, projectStatus: project.projectStatus
+                projectName: project.projectName, fkClientId: project.fkClientId, projectStatus: project.projectStatus,
+                vehicleType: project.vehicleType,
+                sw: project.sw,
+                ar: project.ar,
+                inch: project.inch,
+                pattern: project.pattern,
             }).fetch();
             if (createdProject) {
                 console.log('createdProject--', createdProject);
@@ -112,7 +117,12 @@ module.exports = {
         // console.log('params in editProject', params);
         await Projects.updateOne({ id: params.projectId })
             .set({
-                projectStatus: params.projectStatus
+                projectStatus: params.projectStatus,
+                vehicleType: params.vehicleType,
+                sw: params.sw,
+                ar: params.ar,
+                inch: params.inch,
+                pattern: params.pattern,
             });
         // for (let i = 0; i < parameters.length; i++) {
         //     const element = parameters[i];

@@ -79,18 +79,17 @@ module.exports = {
   },
   updatePassword: async function (req, res) {
     var params = req.allParams();
-    var update = params.update
-    if (_.isEmpty(update.oldPwd) || _.isEmpty(update.newPwd) || !update.userId) {
+    if (_.isEmpty(params.oldPwd) || _.isEmpty(params.newPwd) || !params.userId) {
       return res.status(404).send('old and new password required');
     } else {
-      var user = await User.findOne({ id: update.userId });
+      var user = await User.findOne({ id: params.userId });
       // return res.json(user)
       if (user) {
-        const match = await bcrypt.compare(update.oldPwd, user.userPassword);
+        const match = await bcrypt.compare(params.oldPwd, user.userPassword);
         if (match) {
-          var updatedDetails = await User.updateOne({ id: update.userId })
+          var updatedDetails = await User.updateOne({ id: params.userId })
             .set({
-              userPassword: update.newPwd,
+              userPassword: params.newPwd,
             });
 
           if (updatedDetails) {
@@ -137,30 +136,26 @@ module.exports = {
   },
   editUser: async function (req, res) {
     var params = req.allParams();
-    var user = params.user
-    console.log('update: ', user.userid, user.email);
-    if (user.userid) {
-      var foundName = await User.findOne({ userName: user.name, id: { '!=': user.userid } });
-      var foundEmail = await User.findOne({ userEmail: user.email, id: { '!=': user.userid } });
-      if (foundEmail && foundName) {
-        return res.json('both exist');
-
-      }
-      else if (foundEmail) {
+    console.log('editUser: ', params);
+    if (params.userId) {
+      var foundEmail = await User.findOne({ userEmail: params.userEmail, id: { '!=': params.userId } });
+      if (foundEmail) {
         return res.json('email already exists');
       }
-      else if (foundName) {
-        return res.json('already exists');
-      }
       else {
-        var updatedDetails = await User.updateOne({ id: user.userid })
-          .set({
-            userEmail: user.email,
-            userRole: user.userRole,
-            userName: user.name,
-            shoppeDetails: user.shoppeID
-          });
-
+        if (params.newPwd != "") {
+          var updatedDetails = await User.updateOne({ id: params.userId })
+            .set({
+              userEmail: params.userEmail,
+              userPassword: params.newPwd,
+            });
+        }
+        else {
+          var updatedDetails = await User.updateOne({ id: params.userId })
+            .set({
+              userEmail: params.userEmail
+            });
+        }
         if (updatedDetails) {
           return res.json(updatedDetails);
         }
@@ -182,7 +177,7 @@ module.exports = {
         return res.json(deleted);
       }
       else {
-        return res.status(401).send('shoppe not found');
+        return res.status(401).send('user not found');
       }
 
     } else {

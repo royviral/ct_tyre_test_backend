@@ -388,12 +388,14 @@ module.exports = {
                             // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
 
                         }
-                        else if (element.fkParameterId.parameterName === "Test Load") {
+
+                        else if (element.fkParameterId.parameterName === "Test Load-1,Cornering Stiffness-1,Aligning Stiffness-1") {
                             var sheetName = workbook.SheetNames[0]
                             console.log('sheetName--', sheetName);
                             worksheet = workbook.Sheets[sheetName];
                             // worksheet = workbook.Sheets['FAM_6LOADS'];
-                            cell_value = worksheet['C21'].v + ' ' + worksheet['E21'].v + ' ' + worksheet['G21'].v + ' ' + worksheet['I21'].v + ' ' + worksheet['K21'].v + ' ' + worksheet['M21'].v;
+                            // cell_value = worksheet['C21'].v + ' ' + worksheet['E21'].v + ' ' + worksheet['G21'].v + ' ' + worksheet['I21'].v + ' ' + worksheet['K21'].v + ' ' + worksheet['M21'].v;
+                            cell_value = worksheet['C21'].w + ' , ' + worksheet['C36'].w + ' , ' + worksheet['C38'].w
                             console.log('Test Load cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
                                 .set({
@@ -402,12 +404,12 @@ module.exports = {
                             // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
 
                         }
-                        else if (element.fkParameterId.parameterName === "Cornering Stiffness") {
+                        else if (element.fkParameterId.parameterName === "Test Load-2,Cornering Stiffness-2,Aligning Stiffness-2") {
                             var sheetName = workbook.SheetNames[0]
                             console.log('sheetName--', sheetName);
                             worksheet = workbook.Sheets[sheetName];
                             // worksheet = workbook.Sheets['FAM_6LOADS'];
-                            cell_value = worksheet['C36'].w + ' ' + worksheet['E36'].w + ' ' + worksheet['G36'].w + ' ' + worksheet['I36'].w + ' ' + worksheet['K36'].w + ' ' + worksheet['M36'].w;
+                            cell_value = worksheet['E21'].w + ' , ' + worksheet['E36'].w + ' , ' + worksheet['E38'].w
                             console.log('Cornering Stiffness cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
                                 .set({
@@ -416,12 +418,51 @@ module.exports = {
                             // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
 
                         }
-                        else if (element.fkParameterId.parameterName === "Aligning Stiffness") {
+                        else if (element.fkParameterId.parameterName === "Test Load-3,Cornering Stiffness-3,Aligning Stiffness-3") {
                             var sheetName = workbook.SheetNames[0]
                             console.log('sheetName--', sheetName);
                             worksheet = workbook.Sheets[sheetName];
                             // worksheet = workbook.Sheets['FAM_6LOADS'];
-                            cell_value = worksheet['C38'].w + ' ' + worksheet['E38'].w + ' ' + worksheet['G38'].w + ' ' + worksheet['I38'].w + ' ' + worksheet['K38'].w + ' ' + worksheet['M38'].w;
+                            cell_value = worksheet['G21'].w + ' , ' + worksheet['G36'].w + ' , ' + worksheet['G38'].w
+                            console.log('Aligning Stiffness cell_value---', cell_value);
+                            updatedData = await ProjectData.updateOne({ id: element.id })
+                                .set({
+                                    internalDataValue: cell_value
+                                });
+                            // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
+                        }
+                        else if (element.fkParameterId.parameterName === "Test Load-4,Cornering Stiffness-4,Aligning Stiffness-4") {
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
+                            cell_value = worksheet['I21'].w + ' , ' + worksheet['I36'].w + ' , ' + worksheet['I38'].w
+                            console.log('Aligning Stiffness cell_value---', cell_value);
+                            updatedData = await ProjectData.updateOne({ id: element.id })
+                                .set({
+                                    internalDataValue: cell_value
+                                });
+                            // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
+                        }
+                        else if (element.fkParameterId.parameterName === "Test Load-5,Cornering Stiffness-5,Aligning Stiffness-5") {
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
+                            cell_value = worksheet['K21'].w + ' , ' + worksheet['K36'].w + ' , ' + worksheet['K38'].w
+                            console.log('Aligning Stiffness cell_value---', cell_value);
+                            updatedData = await ProjectData.updateOne({ id: element.id })
+                                .set({
+                                    internalDataValue: cell_value
+                                });
+                            // insertQuery += `(${currentDate},${currentDate},'${cell_value}',${element.id},${subIterationDetails.id},${subIterationDetails.fkIterationId},${projectDetails.id}),`
+                        }
+                        else if (element.fkParameterId.parameterName === "Test Load-6,Cornering Stiffness-6,Aligning Stiffness-6") {
+                            var sheetName = workbook.SheetNames[0]
+                            console.log('sheetName--', sheetName);
+                            worksheet = workbook.Sheets[sheetName];
+                            // worksheet = workbook.Sheets['FAM_6LOADS'];
+                            cell_value = worksheet['M21'].w + ' , ' + worksheet['M36'].w + ' , ' + worksheet['M38'].w
                             console.log('Aligning Stiffness cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
                                 .set({
@@ -522,11 +563,13 @@ module.exports = {
                     console.log('definitelyPosix--', definitelyPosix);
                     fileNameArg = "\"" + definitelyPosix + "\""
                     dirNameArg = "\"" + projectRootPosix + "/assets/uploads"
+                    console.log('projectRootPosix--', projectRootPosix);
                     console.log('dirNameArg--', dirNameArg);
                     imgPath = dirNameArg + "/" + imgName + "\""
                     console.log('fileNameArg--', fileNameArg);
                     console.log('imgPath--', imgPath);
-                    var child = await require('child_process').exec("python C:/backup/excel_extract/extract_img.py " + fileNameArg + " " + imgPath)
+                    console.log('command:---' + "python \"" + projectRootPosix + "/extract_img.py\" " + fileNameArg + " " + imgPath);
+                    var child = await require('child_process').exec("python \"" + projectRootPosix + "/extract_img.py\" " + fileNameArg + " " + imgPath)
                     child.stdout.pipe(process.stdout)
                     child.on('exit', function () {
                         console.log('img done');
@@ -779,12 +822,10 @@ module.exports = {
     },
     uploadPdfFile: async function (req, res) {
         if (process.env.NODE_ENV === 'production') {
-            var dirname = '/var/www/html/ct_excel_files'
-            var filePath = '/var/www/html/csvfiles/mcx_csv.csv'
+            var dirname = '/var/www/html/ct_excel_files/outdoor_reports'
         }
         else {
             var dirname = '../../assets/uploads/outdoor_reports'
-            var filePath = project_root + '/assets/uploads/mcx_csv.csv'
         }
         var projectDetails = JSON.parse(req.param('projectDetails'))
         var subIterationDetails = JSON.parse(req.param('subIterationDetails'))
@@ -866,16 +907,28 @@ module.exports = {
                 const definitelyPosix = arg.split(path.sep).join(path.posix.sep);
                 const projectRootPosix = project_root.split(path.sep).join(path.posix.sep);
                 console.log('definitelyPosix--', definitelyPosix);
+                if (process.env.NODE_ENV === 'production') {
+                    dirNameArg = "\"/var/www/html/ct_excel_files/outdoor_reports" + "\""
+                }
+                else {
+                    dirNameArg = "\"" + projectRootPosix + "/assets/uploads/outdoor_reports" + "\""
+                }
                 fileNameArg = "\"" + definitelyPosix + "\""
-                dirNameArg = "\"" + projectRootPosix + "/assets/uploads/outdoor_reports" + "\""
+                console.log('projectRootPosix--', projectRootPosix);
                 console.log('dirNameArg--', dirNameArg);
                 console.log('fileNameArg--', fileNameArg);
-                var child = await require('child_process').exec("python C:/backup/excel_extract/pdf-to-excel.py " + fileNameArg + " " + dirNameArg)
+                console.log('command:---' + "python \"" + projectRootPosix + "/pdf-to-excel.py\" " + fileNameArg + " " + dirNameArg);
+                var child = await require('child_process').exec("python \"" + projectRootPosix + "/pdf-to-excel.py\" " + fileNameArg + " " + dirNameArg)
                 child.stdout.pipe(process.stdout)
                 child.on('exit', async function () {
                     console.log('pdf done');
                     XLSX = require('xlsx');
-                    var workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_3.xlsx');
+                    if (process.env.NODE_ENV === 'production') {
+                        var workbook = XLSX.readFile("/var/www/html/ct_excel_files/outdoor_reports" + '/file_3.xlsx');
+                    }
+                    else {
+                        var workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_3.xlsx');
+                    }
                     console.log('workbook.SheetNames--', workbook.SheetNames);
                     var worksheet = workbook.Sheets['Sheet1'];
                     var subIterationNumber = parseInt(subIterationDetails.subIterationName.charAt(1))

@@ -25,6 +25,9 @@ module.exports.routes = {
   'POST /login': 'UserController.login',
   'GET /listUsers': 'UserController.listUsers',
   'POST /registerUser': 'UserController.registerUser',
+  'POST /updatePassword': 'UserController.updatePassword',
+  'POST /editUser': 'UserController.editUser',
+  'GET /deleteUser': 'UserController.deleteUser',
 
   'GET /getClientDetails': 'ClientsController.getClientDetails',
   'GET /listClients': 'ClientsController.listClients',

@@ -90,7 +90,7 @@ module.exports = {
                 var sheetName = workbook.SheetNames[0]
                 console.log('sheetName--', sheetName);
                 var worksheet = workbook.Sheets[sheetName];
-                console.log('worksheet--', worksheet);
+                // console.log('worksheet--', worksheet);
                 var parameterValues = []
                 for (let i = 0; i < subIterations.length; i++) {
                     var subIterationNameCell = 'D9'
@@ -148,7 +148,7 @@ module.exports = {
                 for (let i = 0; i < trialPlanParams.length; i++) {
                     const element = trialPlanParams[i];
                     var cell = element.fkParameterId.parameterCellNumber
-                    console.log(element.fkParameterId.parameterName, '  cell--', cell);
+                    // console.log(element.fkParameterId.parameterName, '  cell--', cell);
                     var newCell
 
                     var replaceChar = String.fromCharCode(cell.charCodeAt(0) - 1)
@@ -159,7 +159,7 @@ module.exports = {
                     // console.log('cell value--', worksheet[newCell]);
                     if (worksheet[newCell] != null) {
                         cell_value = worksheet[newCell].w
-                        console.log('cell_value---', cell_value);
+                        // console.log('cell_value---', cell_value);
                         updatedData = await IterationTrialPlanData.updateOne({ id: element.id })
                             .set({
                                 parameterValue: cell_value
@@ -167,8 +167,9 @@ module.exports = {
                     }
                 }
                 var projectData = await IterationTrialPlanData.find({ fkIterationId: iterationDetails.id }).populate('fkParameterId').populate('fkIterationId')
+                var iterationData = await Iteration.find({ id: iterationDetails.id }).populate('fkProjectId')
                 if (projectData) {
-                    return res.json(projectData);
+                    return res.json(iterationData);
                 }
             }
             catch (e) {

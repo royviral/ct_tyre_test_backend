@@ -36,6 +36,38 @@ module.exports = {
         `,
       protect: true,
     },
+    vehicleType: {
+      type: 'string',
+      defaultsTo: '1',
+      isIn: ['1', '2'],
+      description: 'Project vehical type',
+      extendedDescription:
+        `Project vehical types are 
+        1 - EV, 
+        2 - IC,
+        `,
+      protect: true,
+    },
+    sw: {
+      type: 'string',
+      description: 'data of specified parameter',
+      maxLength: 120,
+      example: 'xnom'
+    },
+    ar: {
+      type: 'string',
+      maxLength: 120,
+      example: 'xnom'
+    },
+    inch: {
+      type: 'number',
+      example: '45'
+    },
+    pattern: {
+      type: 'string',
+      maxLength: 120,
+      example: 'xnom'
+    },
     fkClientId: {
       columnName: 'fkClientId',
       model: 'Clients',
