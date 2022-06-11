@@ -60,7 +60,8 @@ module.exports = {
       example: 'xnom'
     },
     inch: {
-      type: 'number',
+      type: 'string',
+      maxLength: 120,
       example: '45'
     },
     pattern: {

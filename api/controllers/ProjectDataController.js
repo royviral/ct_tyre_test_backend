@@ -32,24 +32,39 @@ module.exports = {
     getCompiledReport: async function (req, res) {
         var params = req.allParams();
         console.log('getCompiledReport--', params);
-        var query = `SELECT pr.projectName,c.clientName,c.clientBase,c.clientCategory,
-        p.parameterName,
-        i.iterationName,
-        sb1.fkParameterId AS fkParameterId1,sb1.internalDataValue AS internalDataValue1,
-        sb2.fkParameterId AS fkParameterId2, sb2.internalDataValue AS internalDataValue2
-            FROM ceat_project_data sb1, 
-            ceat_project_data sb2,
-            ceat_project_sub_iteration as sb,
-            ceat_project_iteration as i,
-            ceat_project_parameters as p,
-            ceat_projects as pr,ceat_clients as c
-            WHERE sb1.fkParameterId = sb2.fkParameterId
-            AND p.parameterId=sb1.fkParameterId
-            AND pr.projectId=sb1.fkProjectId
-            AND pr.fkClientId=c.clientId
-            AND sb.subIterationId=sb1.fkSubIterationId
-            AND i.iterationId=sb1.fkIterationId
-            AND (sb1.fkSubIterationId = 1 AND sb2.fkSubIterationId =2);`
+        // var query = `SELECT pr.projectName,c.clientName,c.clientBase,c.clientCategory,
+        // p.parameterName,
+        // i.iterationName,
+        // sb1.fkParameterId AS fkParameterId1,sb1.internalDataValue AS internalDataValue1,
+        // sb2.fkParameterId AS fkParameterId2, sb2.internalDataValue AS internalDataValue2
+        //     FROM ceat_project_data sb1, 
+        //     ceat_project_data sb2,
+        //     ceat_project_sub_iteration as sb,
+        //     ceat_project_iteration as i,
+        //     ceat_project_parameters as p,
+        //     ceat_projects as pr,ceat_clients as c
+        //     WHERE sb1.fkParameterId = sb2.fkParameterId
+        //     AND p.parameterId=sb1.fkParameterId
+        //     AND pr.projectId=sb1.fkProjectId
+        //     AND pr.fkClientId=c.clientId
+        //     AND sb.subIterationId=sb1.fkSubIterationId
+        //     AND i.iterationId=sb1.fkIterationId
+        //     AND (sb1.fkSubIterationId = 1 AND sb2.fkSubIterationId =2);`
+
+        // var query = `SELECT pr.*,sb.subIterationName,p.parameterName 
+        // FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,ceat_project_parameters as p  
+        // WHERE sb.subIterationId=pr.fkSubIterationId AND 
+        // p.parameterId=pr.fkParameterId AND 
+        // pr.internalDataValue IS NOT NULL AND 
+        // pr.fkIterationId=1 AND pr.fkProjectId=1 
+        // ORDER BY pr.fkParameterId,pr.fkSubIterationId;`
+        var query = `SELECT pr.*,sb.subIterationName,p.parameterName 
+        FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,ceat_project_parameters as p  
+        WHERE sb.subIterationId=pr.fkSubIterationId AND 
+        p.parameterId=pr.fkParameterId AND 
+        pr.internalDataValue IS NOT NULL AND 
+        pr.fkProjectId=1 
+        ORDER BY pr.fkParameterId,pr.fkSubIterationId,pr.fkIterationId;`
         var projectData = await ProjectData.getDatastore().sendNativeQuery(query)
         // console.log('projectData--', projectData.rows);
         if (projectData.rows) {

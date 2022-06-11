@@ -395,7 +395,11 @@ module.exports = {
   * > https://sailsjs.com/config/*#?sailsconfigssl                          *
   *                                                                         *
   **************************************************************************/
-  // ssl: undefined,
+
+  // ssl: {
+  //   key: require('fs').readFileSync(require('path').resolve(__dirname + '/ssl/default_certificate.pem')),
+  //   cert: require('fs').readFileSync(require('path').resolve(__dirname + '/ssl/default_certificate.pem'))
+  // },
 
 
 
