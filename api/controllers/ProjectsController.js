@@ -69,7 +69,7 @@ module.exports = {
         var parameters = project.parameters
         var currentDate = new Date().getTime()
         var insertQuery = `INSERT INTO ceat_project_parameters(createdAt,updatedAt,parameterName,parameterCellNumber,parameterReportType,parameterStatus, fkProjectId) VALUES `
-        console.log('params in registerProject', project);
+        // console.log('params in registerProject', project);
         var projectResult = await Projects.find({ projectName: project.projectName })
         console.log('projectResult: ', projectResult);
         if (projectResult && projectResult.length > 0) {
@@ -96,8 +96,9 @@ module.exports = {
                 }
                 //  var finalQuery = query + insertString
                 insertQuery = insertQuery.slice(0, -1)
-                console.log('insertQuery--', insertQuery);
+                // console.log('insertQuery--', insertQuery);
                 var result = await ProjectParameters.getDatastore().sendNativeQuery(insertQuery)
+                // console.log("result--", result);
                 return res.json(createdProject);
             }
             else {

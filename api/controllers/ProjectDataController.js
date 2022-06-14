@@ -58,13 +58,30 @@ module.exports = {
         // pr.internalDataValue IS NOT NULL AND 
         // pr.fkIterationId=1 AND pr.fkProjectId=1 
         // ORDER BY pr.fkParameterId,pr.fkSubIterationId;`
-        var query = `SELECT pr.*,sb.subIterationName,p.parameterName 
-        FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,ceat_project_parameters as p  
-        WHERE sb.subIterationId=pr.fkSubIterationId AND 
+
+        // var query = `SELECT pr.*,sb.subIterationName,p.parameterName 
+        // FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,ceat_project_parameters as p  
+        // WHERE sb.subIterationId=pr.fkSubIterationId AND 
+        // p.parameterId=pr.fkParameterId AND 
+        // pr.internalDataValue IS NOT NULL AND 
+        // pr.fkProjectId=1 
+        // ORDER BY pr.fkParameterId,pr.fkSubIterationId,pr.fkIterationId;`
+
+        var query = `SELECT 
+        prj.projectId,prj.projectName,
+        i.iterationId,i.iterationName,
+        sb.subIterationId,sb.subIterationName,
+        p.parameterId,p.parameterName,pr.internalDataValue
+        FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,
+        ceat_project_parameters as p, ceat_projects as prj, ceat_project_iteration as i  
+        WHERE 
+        prj.projectId=pr.fkProjectId AND
+        i.iterationId=pr.fkIterationId AND
+        sb.subIterationId=pr.fkSubIterationId AND 
         p.parameterId=pr.fkParameterId AND 
-        pr.internalDataValue IS NOT NULL AND 
-        pr.fkProjectId=1 
-        ORDER BY pr.fkParameterId,pr.fkSubIterationId,pr.fkIterationId;`
+        pr.internalDataValue IS NOT NULL
+        ORDER BY pr.fkParameterId,pr.fkIterationId;`
+
         var projectData = await ProjectData.getDatastore().sendNativeQuery(query)
         // console.log('projectData--', projectData.rows);
         if (projectData.rows) {
@@ -916,6 +933,17 @@ module.exports = {
                         return true;
                     }
                 });
+                var noise60Params = projectParameters.filter((currentValue) => {
+                    if (currentValue.fkParameterId.parameterReportType == "9" || currentValue.fkParameterId.parameterReportType == "10") {
+                        return true;
+                    }
+                });
+
+                var noise80Params = projectParameters.filter((currentValue) => {
+                    if (currentValue.fkParameterId.parameterReportType == "11" || currentValue.fkParameterId.parameterReportType == "12") {
+                        return true;
+                    }
+                });
                 var arg = uploadedFile[0].fd
                 const path = require("path");
 
@@ -939,19 +967,24 @@ module.exports = {
                     console.log('pdf done');
                     XLSX = require('xlsx');
                     if (process.env.NODE_ENV === 'production') {
-                        var workbook = XLSX.readFile("/var/www/html/ct_excel_files/outdoor_reports" + '/file_3.xlsx');
+                        var workbook = XLSX.readFile("/var/www/html/ct_excel_files/outdoor_reports" + '/file_37.xlsx');
                     }
                     else {
-                        var workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_3.xlsx');
+                        var workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_37.xlsx');
                     }
                     console.log('workbook.SheetNames--', workbook.SheetNames);
                     var worksheet = workbook.Sheets['Sheet1'];
                     var subIterationNumber = parseInt(subIterationDetails.subIterationName.charAt(1))
                     console.log('subIterationNumber--', subIterationNumber);
+                    var splitCellsArray = ['F24', 'F25', 'F26', 'F27', 'F28', 'F32', 'F33', 'F39', 'F40', 'F41', 'F42', 'F43', 'F44', 'F45']
                     for (let i = 0; i < outdoorRideParams.length; i++) {
                         const element = outdoorRideParams[i];
                         var cell = element.fkParameterId.parameterCellNumber
+                        let split = false
                         console.log('cell--', cell);
+                        if (splitCellsArray.includes(cell)) {
+                            split = true
+                        }
                         var newCell
                         if (subIterationNumber != 1) {
                             var replaceChar = String.fromCharCode(cell.charCodeAt(0) + 2)
@@ -965,7 +998,17 @@ module.exports = {
                             console.log('new cell--', newCell)
                         }
                         if (worksheet[newCell] != null) {
-                            cell_value = worksheet[newCell].w
+                            if (newCell == 'F17') {
+                                let splitCell = worksheet[newCell].w.split(" ");
+                                cell_value = splitCell[splitCell.length - 1]
+                            }
+                            else if (split) {
+                                let splitCell = worksheet[newCell].w.split(" ");
+                                cell_value = splitCell[0]
+                            }
+                            else {
+                                cell_value = worksheet[newCell].w
+                            }
                             console.log('cell_value---', cell_value);
                             updatedData = await ProjectData.updateOne({ id: element.id })
                                 .set({
@@ -973,7 +1016,7 @@ module.exports = {
                                 });
                         }
                     }
-                    var outdoorHandlingWorkbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_6.xlsx');
+                    var outdoorHandlingWorkbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_39.xlsx');
                     console.log('outdoorHandlingWorkbook.SheetNames--', outdoorHandlingWorkbook.SheetNames);
                     var outdoorHandlingWorksheet = outdoorHandlingWorkbook.Sheets['Sheet1'];
                     for (let i = 0; i < outdoorHandlingParams.length; i++) {
@@ -1003,6 +1046,71 @@ module.exports = {
                                 });
                         }
                     }
+
+                    var noise60Workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_3.xlsx');
+                    console.log('noise60Workbook.SheetNames--', noise60Workbook.SheetNames);
+                    var noise60Worksheet = noise60Workbook.Sheets['Sheet1'];
+                    for (let i = 0; i < noise60Params.length; i++) {
+                        const element = noise60Params[i];
+                        var cell = element.fkParameterId.parameterCellNumber
+                        console.log('cell--', cell);
+                        var newCell
+                        if (subIterationNumber != 1) {
+                            // var replaceChar = String.fromCharCode(cell.charCodeAt(0) + 2)
+                            var newStringArray = cell.split("");
+                            let len = newStringArray.length - 1;
+                            newStringArray[len] = (parseInt(newStringArray[len])) + 1;
+                            newCell = newStringArray.join("");
+                            console.log('new cell--', newCell)
+                        }
+                        else {
+                            newCell = cell
+                            console.log('new cell--', newCell)
+                        }
+                        // console.log('noise60Worksheet--', noise60Worksheet);
+                        // console.log('noise60Worksheet[newCell]--', noise60Worksheet[newCell]);
+                        if (noise60Worksheet[newCell] != null) {
+                            cell_value = noise60Worksheet[newCell].v
+                            console.log('cell_value---', cell_value);
+                            updatedData = await ProjectData.updateOne({ id: element.id })
+                                .set({
+                                    internalDataValue: cell_value
+                                });
+                        }
+                    }
+
+                    var noise80Workbook = XLSX.readFile(projectRootPosix + "/assets/uploads/outdoor_reports" + '/file_7.xlsx');
+                    console.log('noise80Workbook.SheetNames--', noise80Workbook.SheetNames);
+                    var noise80Worksheet = noise80Workbook.Sheets['Sheet1'];
+                    for (let i = 0; i < noise80Params.length; i++) {
+                        const element = noise80Params[i];
+                        var cell = element.fkParameterId.parameterCellNumber
+                        console.log('cell--', cell);
+                        var newCell
+                        if (subIterationNumber != 1) {
+                            // var replaceChar = String.fromCharCode(cell.charCodeAt(0) + 2)
+                            var newStringArray = cell.split("");
+                            let len = newStringArray.length - 1;
+                            newStringArray[len] = (parseInt(newStringArray[len])) + 1;
+                            newCell = newStringArray.join("");
+                            console.log('new cell--', newCell)
+                        }
+                        else {
+                            newCell = cell
+                            console.log('new cell--', newCell)
+                        }
+                        // console.log('noise60Worksheet--', noise60Worksheet);
+                        // console.log('noise60Worksheet[newCell]--', noise60Worksheet['F19']);
+                        if (noise80Worksheet[newCell] != null) {
+                            cell_value = noise80Worksheet[newCell].v
+                            console.log('cell_value---', cell_value);
+                            updatedData = await ProjectData.updateOne({ id: element.id })
+                                .set({
+                                    internalDataValue: cell_value
+                                });
+                        }
+                    }
+
                     var projectData = await ProjectData.find({ fkSubIterationId: subIterationDetails.id }).populate('fkParameterId').populate('fkSubIterationId').populate('fkIterationId')
                     if (projectData) {
                         return res.json(projectData);
