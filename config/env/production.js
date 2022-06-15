@@ -54,7 +54,7 @@ module.exports = {
       user: 'ceat_tps_user',
       password: 'Ct_tps_E!B2022',
       port: '3306',
-      host: 'localhost',
+      host: '81.169.137.110',
       database: 'ceat_tps_database',
       timezone: 'Asia/Kolkata'
       // adapter: 'sails-mysql',
