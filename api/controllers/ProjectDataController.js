@@ -31,7 +31,36 @@ module.exports = {
     },
     getCompiledReport: async function (req, res) {
         var params = req.allParams();
-        console.log('getCompiledReport--', params);
+        var projectList = `SELECT DISTINCT pd.fkProjectId,prj.projectName FROM ceat_project_data as pd, ceat_projects as prj WHERE prj.projectId = pd.fkProjectId ORDER BY pd.fkProjectId DESC`
+        var projectsData = await ProjectData.getDatastore().sendNativeQuery(projectList)
+        var allProjectArray = Array()
+        if (projectsData.rows) {
+            var projects = projectsData.rows
+            const uniqueArr = [... new Set(projects.map(data => data.fkProjectId))]
+            // console.log('uniqueArr', uniqueArr);
+            projects.forEach(element => {
+                element.subIterations = Array()
+            });
+
+            var subIterations = `SELECT DISTINCT pd.fkSubIterationId,pd.fkProjectId, psi.subIterationName FROM ceat_project_data as pd LEFT JOIN ceat_project_sub_iteration as psi ON pd.fkSubIterationId = psi.subIterationId WHERE pd.fkProjectId IN (${uniqueArr.join(',')})  ORDER BY pd.fkProjectId DESC, pd.fkSubIterationId`;
+            var subIterationsData = await ProjectData.getDatastore().sendNativeQuery(subIterations)
+            if (subIterationsData.rows) {
+                // console.log('subIterationsData', subIterationsData.rows);
+
+                for (let s = 0; s < subIterationsData.rows.length; s++) {
+                    const element = subIterationsData.rows[s];
+
+                    var index = projects.findIndex(function (project, index) {
+                        return project.fkProjectId == element.fkProjectId
+                    })
+                    // console.log(projects[index]);
+
+                    projects[index].subIterations.push(element)
+
+                }
+            }
+        }
+        // console.log('getCompiledReport--', params);
         // var query = `SELECT pr.projectName,c.clientName,c.clientBase,c.clientCategory,
         // p.parameterName,
         // i.iterationName,
@@ -68,14 +97,15 @@ module.exports = {
         // ORDER BY pr.fkParameterId,pr.fkSubIterationId,pr.fkIterationId;`
 
         var query = `SELECT 
-        prj.projectId,prj.projectName,
+        prj.projectId,prj.projectName,prj.vehicleType,prj.sw,prj.ar,prj.inch,prj.pattern,c.clientName, c.clientBase,
         i.iterationId,i.iterationName,
         sb.subIterationId,sb.subIterationName,
-        p.parameterId,p.parameterName,pr.internalDataValue
+        p.parameterId,p.parameterReportType,p.parameterName,pr.internalDataValue
         FROM ceat_project_data as pr,ceat_project_sub_iteration as sb,
-        ceat_project_parameters as p, ceat_projects as prj, ceat_project_iteration as i  
+        ceat_project_parameters as p, ceat_projects as prj, ceat_clients as c,ceat_project_iteration as i  
         WHERE 
         prj.projectId=pr.fkProjectId AND
+        prj.fkClientId=c.clientId AND
         i.iterationId=pr.fkIterationId AND
         sb.subIterationId=pr.fkSubIterationId AND 
         p.parameterId=pr.fkParameterId AND 
@@ -83,9 +113,126 @@ module.exports = {
         ORDER BY pr.fkParameterId,pr.fkIterationId;`
 
         var projectData = await ProjectData.getDatastore().sendNativeQuery(query)
-        // console.log('projectData--', projectData.rows);
         if (projectData.rows) {
-            return res.json(projectData.rows);
+            const reportType = [
+                1,
+                6, // ride comfort outdoor
+                7, // handling outdoor
+                9, //Noise 60 kmph -Coarse road-Driver Left Mic
+                10, //Noise 60 kmph -Coarse road-Rear Center Mic
+                11, //Noise 80 kmph -Coarse road-Driver Left Mic
+                12, //Noise 80 kmph -Coarse road-Rear Center Mic
+            ]
+            const columnReportType = [
+                6, // ride comfort outdoor
+                7, // handling outdoor
+            ]
+            const indoorTestingParams = [
+                "Vertical Spring Rate(daN/mm)",
+                "Lateral Spring Rate(daN/mm)",
+                "Tangential Spring Rate(daN/mm)",
+                "Stiffness Rigidity(Nm/deg)",
+                "Maximum Width(cm)",
+                "Maximum Height(cm)",
+                "Contact Ratio(%)",
+                "Rectangular Ratio",
+                "EU Aligned Value(N/kN)",
+
+                // "FP Report Chart"
+            ]
+
+            for (let i = 0; i < projects.length; i++) {
+                const element = projects[i];
+                element.changedValues = Array();
+                element.DL60_9 = {};
+                element.RC60_10 = {};
+                element.DL80_11 = {};
+                element.RC80_12 = {};
+                element.indoorReport = {};
+
+                let previousSubIteration = Array();
+                let previousSubIterationName = ''
+                for (let j = 0; j < element.subIterations.length; j++) {
+                    const subIteration = element.subIterations[j];
+                    if (j == 0) {
+                        // previousSubIteration = Array()
+                        var firstIteration = projectData.rows.filter(function (data) {
+                            return data.subIterationId == subIteration.fkSubIterationId && reportType.indexOf(parseInt(data.parameterReportType)) != -1
+                        })
+                        previousSubIteration = firstIteration
+                        previousSubIterationName = subIteration.subIterationName
+                    } else {
+                        var nextSubIteration = projectData.rows.filter(function (data) {
+                            return data.projectId == element.fkProjectId &&
+                                data.subIterationId == subIteration.fkSubIterationId && reportType.indexOf(parseInt(data.parameterReportType)) != -1
+                        })
+                        nextSubIteration.forEach(el => {
+                            var changedValue = previousSubIteration.filter(function (data) {
+                                if (el.parameterId == data.parameterId) {
+                                    data.fromInternalDataValue = isNaN(Number(data.internalDataValue)) ? data.internalDataValue : Number(data.internalDataValue).toFixed(2)
+                                    data.toInternalDataValue = isNaN(Number(el.internalDataValue)) ? el.internalDataValue : Number(el.internalDataValue).toFixed(2)
+                                    if (!isNaN(Number(el.internalDataValue)) && !isNaN(Number(data.internalDataValue))) {
+                                        var change = Number(el.internalDataValue) - Number(data.internalDataValue)
+                                        data.change = change.toFixed(2)
+                                    } else {
+                                        data.change = '-'
+                                    }
+                                    data.projectName = element.projectName
+                                    data.from = previousSubIterationName
+                                    data.to = subIteration.subIterationName
+                                    data.constuction = previousSubIterationName + subIteration.subIterationName
+                                    if (columnReportType.indexOf(parseInt(data.parameterReportType)) != -1 && el.internalDataValue != data.internalDataValue) {
+                                        element.changedValues.push(data)
+                                    }
+                                    if ((data.parameterReportType) == 9) {
+                                        // element.DL60_9.push(data)
+                                        if (!Array.isArray(element.DL60_9[data.constuction])) {
+                                            element.DL60_9[data.constuction] = Array()
+                                        }
+                                        // element.DL60_9[data.constuction] ={}
+                                        element.DL60_9[data.constuction].push(data)
+                                    }
+                                    if ((data.parameterReportType) == 10) {
+                                        // element.RC60_10.push(data)
+                                        if (!Array.isArray(element.RC60_10[data.constuction])) {
+                                            element.RC60_10[data.constuction] = Array()
+                                        }
+                                        element.RC60_10[data.constuction].push(data)
+                                    }
+                                    if ((data.parameterReportType) == 11) {
+                                        // element.DL80_11.push(data)
+                                        if (!Array.isArray(element.DL80_11[data.constuction])) {
+                                            element.DL80_11[data.constuction] = Array()
+                                        }
+                                        element.DL80_11[data.constuction].push(data)
+                                    }
+                                    if ((data.parameterReportType) == 12) {
+                                        // element.RC80_12.push(data)
+                                        if (!Array.isArray(element.RC80_12[data.constuction])) {
+                                            element.RC80_12[data.constuction] = Array()
+                                        }
+                                        element.RC80_12[data.constuction].push(data)
+                                    }
+                                    if ((data.parameterReportType) == 1 && indoorTestingParams.indexOf(data.parameterName) !== -1) {
+                                        if (!Array.isArray(element.indoorReport[data.constuction])) {
+                                            element.indoorReport[data.constuction] = Array()
+                                        }
+                                        element.indoorReport[data.constuction].push(data)
+                                    }
+                                    return data
+                                }
+                            })
+                        });
+                        previousSubIteration = nextSubIteration
+                        previousSubIterationName = subIteration.subIterationName
+                    }
+                    // if (element.fkProjectId == 5) {
+                    //     console.log('data', element);
+                    // }
+                }
+            }
+            return res.json(projects);
+            // return res.json(projectData.rows);
         }
     },
     updateCellInfo: async function (req, res) {
