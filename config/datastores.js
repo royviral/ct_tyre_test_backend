@@ -54,7 +54,8 @@ module.exports.datastores = {
     password: '',
     port: '3306',
     host: 'localhost',
-    database: 'ceat_tyre_test_db',
+    // database: 'ceat_tyre_test_db_live',
+    database: 'ceat_tps_live',
     timezone: 'Asia/Kolkata'
 
   },

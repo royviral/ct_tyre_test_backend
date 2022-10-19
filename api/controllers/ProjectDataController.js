@@ -184,34 +184,152 @@ module.exports = {
                                     if (columnReportType.indexOf(parseInt(data.parameterReportType)) != -1 && el.internalDataValue != data.internalDataValue) {
                                         element.changedValues.push(data)
                                     }
+                                    // if ((data.parameterReportType) == 8 && data.parameterName == "Bead filler compound") {
+                                    //     console.log('bead filler compound', data);
+                                    // }
                                     if ((data.parameterReportType) == 9) {
                                         // element.DL60_9.push(data)
-                                        if (!Array.isArray(element.DL60_9[data.constuction])) {
-                                            element.DL60_9[data.constuction] = Array()
-                                        }
+                                        // if (!Array.isArray(element.DL60_9[data.constuction])) {
+                                        //     element.DL60_9[data.constuction] = Array()
+                                        // }
                                         // element.DL60_9[data.constuction] ={}
-                                        element.DL60_9[data.constuction].push(data)
+                                        // console.log('data', data.parameterName);
+                                        if (!element.DL60_9[data.constuction]) {
+                                            element.DL60_9[data.constuction] = {
+                                                overall: null,
+                                                booming: null,
+                                                cavity: null,
+                                                rolling: null,
+                                                highFrequency: null,
+                                            }
+                                        }
+
+                                        if (data.parameterName == "Overall") {
+                                            element.DL60_9[data.constuction].overall = data
+                                        }
+                                        if (data.parameterName == "Booming") {
+                                            element.DL60_9[data.constuction].booming = data
+
+                                        }
+                                        if (data.parameterName == "Cavity") {
+                                            element.DL60_9[data.constuction].cavity = data
+
+                                        }
+                                        if (data.parameterName == "Rolling") {
+                                            element.DL60_9[data.constuction].rolling = data
+
+                                        }
+                                        if (data.parameterName == "High Frequency") {
+                                            element.DL60_9[data.constuction].highFrequency = data
+
+                                        }
+
+                                        // element.DL60_9[data.constuction].push(data)
                                     }
                                     if ((data.parameterReportType) == 10) {
                                         // element.RC60_10.push(data)
-                                        if (!Array.isArray(element.RC60_10[data.constuction])) {
-                                            element.RC60_10[data.constuction] = Array()
+                                        // if (!Array.isArray(element.RC60_10[data.constuction])) {
+                                        //     element.RC60_10[data.constuction] = Array()
+                                        // }
+                                        // element.RC60_10[data.constuction].push(data)
+                                        if (!element.RC60_10[data.constuction]) {
+                                            element.RC60_10[data.constuction] = {
+                                                overall: null,
+                                                booming: null,
+                                                cavity: null,
+                                                rolling: null,
+                                                highFrequency: null,
+                                            }
                                         }
-                                        element.RC60_10[data.constuction].push(data)
+                                        if (data.parameterName == "Overall") {
+                                            element.RC60_10[data.constuction].overall = data
+                                        }
+                                        if (data.parameterName == "Booming") {
+                                            element.RC60_10[data.constuction].booming = data
+
+                                        }
+                                        if (data.parameterName == "Cavity") {
+                                            element.RC60_10[data.constuction].cavity = data
+
+                                        }
+                                        if (data.parameterName == "Rolling") {
+                                            element.RC60_10[data.constuction].rolling = data
+
+                                        }
+                                        if (data.parameterName == "High Frequency") {
+                                            element.RC60_10[data.constuction].highFrequency = data
+
+                                        }
                                     }
                                     if ((data.parameterReportType) == 11) {
                                         // element.DL80_11.push(data)
-                                        if (!Array.isArray(element.DL80_11[data.constuction])) {
-                                            element.DL80_11[data.constuction] = Array()
+                                        // if (!Array.isArray(element.DL80_11[data.constuction])) {
+                                        //     element.DL80_11[data.constuction] = Array()
+                                        // }
+                                        // element.DL80_11[data.constuction].push(data)
+                                        if (!element.DL80_11[data.constuction]) {
+                                            element.DL80_11[data.constuction] = {
+                                                overall: null,
+                                                booming: null,
+                                                cavity: null,
+                                                rolling: null,
+                                                highFrequency: null,
+                                            }
                                         }
-                                        element.DL80_11[data.constuction].push(data)
+                                        if (data.parameterName == "Overall") {
+                                            element.DL80_11[data.constuction].overall = data
+                                        }
+                                        if (data.parameterName == "Booming") {
+                                            element.DL80_11[data.constuction].booming = data
+
+                                        }
+                                        if (data.parameterName == "Cavity") {
+                                            element.DL80_11[data.constuction].cavity = data
+
+                                        }
+                                        if (data.parameterName == "Rolling") {
+                                            element.DL80_11[data.constuction].rolling = data
+
+                                        }
+                                        if (data.parameterName == "High Frequency") {
+                                            element.DL80_11[data.constuction].highFrequency = data
+
+                                        }
                                     }
                                     if ((data.parameterReportType) == 12) {
                                         // element.RC80_12.push(data)
-                                        if (!Array.isArray(element.RC80_12[data.constuction])) {
-                                            element.RC80_12[data.constuction] = Array()
+                                        // if (!Array.isArray(element.RC80_12[data.constuction])) {
+                                        //     element.RC80_12[data.constuction] = Array()
+                                        // }
+                                        // element.RC80_12[data.constuction].push(data)
+                                        if (!element.RC80_12[data.constuction]) {
+                                            element.RC80_12[data.constuction] = {
+                                                overall: null,
+                                                booming: null,
+                                                cavity: null,
+                                                rolling: null,
+                                                highFrequency: null,
+                                            }
                                         }
-                                        element.RC80_12[data.constuction].push(data)
+                                        if (data.parameterName == "Overall") {
+                                            element.RC80_12[data.constuction].overall = data
+                                        }
+                                        if (data.parameterName == "Booming") {
+                                            element.RC80_12[data.constuction].booming = data
+
+                                        }
+                                        if (data.parameterName == "Cavity") {
+                                            element.RC80_12[data.constuction].cavity = data
+
+                                        }
+                                        if (data.parameterName == "Rolling") {
+                                            element.RC80_12[data.constuction].rolling = data
+
+                                        }
+                                        if (data.parameterName == "High Frequency") {
+                                            element.RC80_12[data.constuction].highFrequency = data
+
+                                        }
                                     }
                                     if ((data.parameterReportType) == 1 && indoorTestingParams.indexOf(data.parameterName) !== -1) {
                                         if (!Array.isArray(element.indoorReport[data.constuction])) {
@@ -231,7 +349,26 @@ module.exports = {
                     // }
                 }
             }
-            return res.json(projects);
+            const result = []
+            let count = 1
+            projects.forEach(element => {
+                if (element.changedValues.length > 0) {
+                    let values = element.changedValues
+                    values.forEach(el => {
+                        el.DL60_9 = element.DL60_9
+                        el.DL80_11 = element.DL80_11
+                        el.RC60_10 = element.RC60_10
+                        el.RC80_12 = element.RC80_12
+                        el.indoorReport = element.indoorReport
+                        el.fkProjectId = element.fkProjectId
+                        el.subIterations = element.subIterations
+                        el.id = count
+                        result.push(el)
+                        count++;
+                    });
+                }
+            });
+            return res.json(result);
             // return res.json(projectData.rows);
         }
     },
